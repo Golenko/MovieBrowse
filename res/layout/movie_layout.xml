@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".GetActivity" >
+
+    <ImageView
+        android:id="@+id/moviePic"
+        android:layout_width="46dp"
+        android:layout_height="65dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/dumb"
+        android:scaleType="fitXY"
+        android:src="@drawable/sample" />
+
+    <TextView
+        android:id="@+id/rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/moviePic"
+        android:layout_marginLeft="14dp"
+        android:layout_toRightOf="@+id/moviePic"
+        android:text="@string/rating"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/release"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rating"
+        android:layout_alignLeft="@+id/rating"
+        android:text="@string/Release"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/popularity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/release"
+        android:layout_alignLeft="@+id/release"
+        android:text="@string/popularity"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <RatingBar
+        android:id="@+id/movieRate"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/rating"
+        android:clickable="false"
+        android:numStars="5"
+        android:rating="2.5" />
+
+    <TextView
+        android:id="@+id/releaseVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/release"
+        android:layout_alignBottom="@+id/release"
+        android:layout_alignParentRight="true"
+        android:text="@string/dumb"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/runtimeVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/popularity"
+        android:layout_alignBottom="@+id/popularity"
+        android:layout_alignParentRight="true"
+        android:text="@string/dumb"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="#000000"
+        android:textSize="12sp"
+        android:textStyle="italic" />
+
+    <TextView
+        android:id="@+id/movieName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/popularity"
+        android:layout_alignRight="@+id/runtimeVal"
+        android:layout_alignTop="@+id/moviePic"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="@string/dumb"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#ff68c853"
+        android:textSize="13sp"
+        android:textStyle="italic" />
+
+</RelativeLayout>
