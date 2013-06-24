@@ -64,19 +64,20 @@ public class Downloader {
 		 *  then decodes and returns a Bitmap object
 		 ---*/
 		File image = new File(dir, id + ".jpg");
-		if (image.exists()) {
+		/*if (image.exists()) {
 			// считать и отдать
 			 System.out.println(image.getAbsolutePath() + "   find");
 			try {
 				FileInputStream fis = new FileInputStream(image);
 				Bitmap myBitmap = BitmapFactory.decodeStream(fis);
+				System.out.println(myBitmap.getHeight());
 				return myBitmap;
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-				System.out.println("!!!!!!!!!!!!!!!!!!!!11111111111");
+		
 			}
 
-		} else {
+		} else*/ {
 			// сохранить и отдать
 			try {
 				URL url = new URL(link);
@@ -95,8 +96,6 @@ public class Downloader {
 
 			} catch (IOException e) {
 				e.printStackTrace();
-				Log.e("getBmpFromUrl error: ", e.getMessage().toString());
-				System.out.println("!!!!!!!!!!!!!!!!!!!!222222222");
 			}
 		}
 		return null;

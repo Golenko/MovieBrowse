@@ -74,7 +74,7 @@ public class MovieDetails extends Activity {
 			((TextView) findViewById(R.id.releaseVal)).setText(results.getDate());
 			((TextView) findViewById(R.id.runtimeVal)).setText(String.valueOf(results.getRuntime()) + " min");
 			((TextView) findViewById(R.id.overview)).setText(results.getOverview());
-			((TextView) findViewById(R.id.countryVal)).setText(results.getCountry());
+			((TextView) findViewById(R.id.popularityVal)).setText(results.getCountry());
 			((RatingBar) findViewById(R.id.movieRate)).setRating(results.getRating());
 			((ImageView) findViewById(R.id.moviePic)).setImageBitmap(results.getBmp());
 		}
