@@ -59,45 +59,5 @@ public class Downloader {
 		return null;
 	}
 
-	public static Bitmap getImage(String link, Long id, File dir) {
-		/*--- this method downloads an Image from the given URL, 
-		 *  then decodes and returns a Bitmap object
-		 ---*/
-		File image = new File(dir, id + ".jpg");
-		/*if (image.exists()) {
-			// считать и отдать
-			 System.out.println(image.getAbsolutePath() + "   find");
-			try {
-				FileInputStream fis = new FileInputStream(image);
-				Bitmap myBitmap = BitmapFactory.decodeStream(fis);
-				System.out.println(myBitmap.getHeight());
-				return myBitmap;
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-		
-			}
 
-		} else*/ {
-			// сохранить и отдать
-			try {
-				URL url = new URL(link);
-				Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(HOST_NAME, PORT));
-				URLConnection yc = url.openConnection(proxy);
-
-				yc.setDoInput(true);
-				yc.connect();
-				InputStream input = yc.getInputStream();
-				Bitmap myBitmap = BitmapFactory.decodeStream(input);
-
-				FileOutputStream fOut = new FileOutputStream(image);
-				myBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-				// System.out.println("записано");
-				return myBitmap;
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
 }

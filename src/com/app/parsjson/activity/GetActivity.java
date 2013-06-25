@@ -1,15 +1,11 @@
 package com.app.parsjson.activity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import com.app.parsjson.Downloader;
-import com.app.parsjson.MovieInfo;
-import com.app.parsjson.MovieView;
-import com.example.parsjson.R;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +16,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.app.parsjson.Downloader;
+import com.app.parsjson.MovieInfo;
+import com.app.parsjson.MovieView;
+import com.app.parsjson.Resource;
+import com.example.parsjson.R;
 
 public class GetActivity extends Activity {
 	public final static String M_ID = "ID";
@@ -66,13 +68,16 @@ public class GetActivity extends Activity {
 					String url = "https://d3gtl9l2a4fn1j.cloudfront.net/t/p/w185"
 							+ film.getString("poster_path");
 					mi.setId(film.getLong("id"));
-					mi.setBmp(Downloader.getImage(url, mi.getId(),
-							getCacheDir()));
+					Resource resource = new Resource();
+					mi.setBmp(resource.getImage(url, mi.getId(), getCacheDir()));
 					list.add(mi);
 					publishProgress(i, 10);
 				}
 				return list;
 			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;

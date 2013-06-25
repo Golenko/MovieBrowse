@@ -1,20 +1,23 @@
 package com.app.parsjson.activity;
 
+import java.io.IOException;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.app.parsjson.Downloader;
-import com.app.parsjson.MovieInfo;
-import com.example.parsjson.R;
-
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
+import com.app.parsjson.Downloader;
+import com.app.parsjson.MovieInfo;
+import com.app.parsjson.Resource;
+import com.example.parsjson.R;
 
 public class MovieDetails extends Activity {
 	private long id;
@@ -53,17 +56,18 @@ public class MovieDetails extends Activity {
 
 					MovieInfo mi = new MovieInfo();
 					mi.setRating((float) film.getDouble("vote_average") / 2);
-					
 					mi.setDate(film.getString("release_date"));
 					mi.setRuntime(Integer.parseInt(film.getString("runtime")));
-					mi.setCountry(film.getJSONArray("production_countries").getJSONObject(0).getString("name"));
+					mi.setPoularity((float) film.getDouble("popularity"));
 					mi.setOverview(film.getString("overview"));
 					String url = "https://d3gtl9l2a4fn1j.cloudfront.net/t/p/w185"
 							+ film.getString("poster_path");
-					mi.setBmp(Downloader.getImage(url, id,
-							getCacheDir()));
+					Resource res = new Resource();
+					mi.setBmp(res.getImage(url, id, getCacheDir()));
 				return mi;
 			} catch (JSONException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			return null;
@@ -74,7 +78,7 @@ public class MovieDetails extends Activity {
 			((TextView) findViewById(R.id.releaseVal)).setText(results.getDate());
 			((TextView) findViewById(R.id.runtimeVal)).setText(String.valueOf(results.getRuntime()) + " min");
 			((TextView) findViewById(R.id.overview)).setText(results.getOverview());
-			((TextView) findViewById(R.id.popularityVal)).setText(results.getCountry());
+			((TextView) findViewById(R.id.popularityVal)).setText(Math.round(results.getPoularity()) + "%");
 			((RatingBar) findViewById(R.id.movieRate)).setRating(results.getRating());
 			((ImageView) findViewById(R.id.moviePic)).setImageBitmap(results.getBmp());
 		}
