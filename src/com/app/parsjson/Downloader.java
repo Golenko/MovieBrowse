@@ -23,12 +23,11 @@ import org.json.JSONObject;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.util.Log;
 
 public class Downloader {
 	private final static int PORT = 8080;
 	private final static String HOST_NAME = "proxy.softservecom.com";
-	public static JSONObject GetJson(String link) {
+	public JSONObject GetJson(String link) {
 
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpHost proxy = new HttpHost(HOST_NAME, PORT);
@@ -57,6 +56,47 @@ public class Downloader {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	
+	public Bitmap getImage(String link, Long id, File dir) {
+		Bitmap bmp = null;
+		/*--- this method downloads an Image from the given URL, 
+		 *  then decodes and returns a Bitmap object
+		 ---*/
+		
+		File image = new File(dir, id + ".jpg");
+		if (image.exists()) {
+			 System.out.println(image.getAbsolutePath() + "   find");
+			try {
+				FileInputStream fis = new FileInputStream(image);
+				bmp = BitmapFactory.decodeStream(fis);
+				System.out.println(bmp.getHeight());
+
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+		
+			}
+
+		} else {
+			try {
+				URL url = new URL(link);
+				Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress(HOST_NAME, PORT));
+				URLConnection yc = url.openConnection(proxy);
+
+				yc.setDoInput(true);
+				yc.connect();
+				InputStream input = yc.getInputStream();
+				bmp = BitmapFactory.decodeStream(input);
+
+				FileOutputStream fOut = new FileOutputStream(image);
+				bmp.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return bmp;
 	}
 
 

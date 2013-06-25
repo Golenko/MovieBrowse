@@ -1,6 +1,5 @@
 package com.app.parsjson.activity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
@@ -20,12 +19,12 @@ import android.widget.TextView;
 import com.app.parsjson.Downloader;
 import com.app.parsjson.MovieInfo;
 import com.app.parsjson.MovieView;
-import com.app.parsjson.Resource;
 import com.example.parsjson.R;
 
 public class GetActivity extends Activity {
 	public final static String M_ID = "ID";
 	public final static String NAME = "NAME";
+	public final static String POPULARITY = "POPULARITY";
 	private LinearLayout framesContainer;
 
 	@Override
@@ -34,9 +33,8 @@ public class GetActivity extends Activity {
 		setContentView(R.layout.activity_get);
 		setTitle("Movie browser");
 		framesContainer = (LinearLayout) findViewById(R.id.mainLayout);
-		// Выполняем асинхронный гет-запрос
-		BrowseMovies bm = new BrowseMovies();
-		bm.execute();
+		BrowseMovies listLoader = new BrowseMovies();
+		listLoader.execute();
 	}
 
 	@Override
@@ -45,8 +43,7 @@ public class GetActivity extends Activity {
 		return true;
 	}
 
-	// Создаём асинхронный класс, котрый подключится к интернету и выполнит
-	// запрос
+
 	private class BrowseMovies extends
 			AsyncTask<Void, Integer, ArrayList<MovieInfo>> {
 
@@ -55,29 +52,26 @@ public class GetActivity extends Activity {
 			ArrayList<MovieInfo> list = new ArrayList<MovieInfo>();
 
 			try {
-				JSONObject entries = Downloader.GetJson("http://private-8a74b-themoviedb.apiary.io/3/movie/popular?api_key=9abbb583ac624dedefae66bfb579e008");
+				Downloader download = new Downloader();
+				JSONObject entries = download.GetJson("http://private-8a74b-themoviedb.apiary.io/3/movie/popular?api_key=9abbb583ac624dedefae66bfb579e008");
 				JSONArray results = entries.getJSONArray("results");
 
 				for (int i = 0; i < 10; i++) {
-					JSONObject film = results.getJSONObject(i);
-					MovieInfo mi = new MovieInfo();
-					mi.setName(film.getString("original_title"));
-					mi.setRating((float) film.getDouble("vote_average") / 2);
-					mi.setPoularity((float) film.getDouble("popularity"));
-					mi.setDate(film.getString("release_date"));
+					JSONObject filmJSON = results.getJSONObject(i);
+					MovieInfo movie = new MovieInfo();
+					movie.setName(filmJSON.getString("original_title"));
+					movie.setRating((float) filmJSON.getDouble("vote_average") / 2);
+					movie.setPoularity((float) filmJSON.getDouble("popularity"));
+					movie.setDate(filmJSON.getString("release_date"));
 					String url = "https://d3gtl9l2a4fn1j.cloudfront.net/t/p/w185"
-							+ film.getString("poster_path");
-					mi.setId(film.getLong("id"));
-					Resource resource = new Resource();
-					mi.setBmp(resource.getImage(url, mi.getId(), getCacheDir()));
-					list.add(mi);
+							+ filmJSON.getString("poster_path");
+					movie.setId(filmJSON.getLong("id"));
+					movie.setBmp(download.getImage(url, movie.getId(), getCacheDir()));
+					list.add(movie);
 					publishProgress(i, 10);
 				}
 				return list;
 			} catch (JSONException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return null;
@@ -85,16 +79,18 @@ public class GetActivity extends Activity {
 		}
 
 		protected void onPostExecute(ArrayList<MovieInfo> results) {
-			for (MovieInfo mi : results) {
+			for (MovieInfo movie : results) {
 				MovieView mv = new MovieView(getApplicationContext());
-				mv.getInfoFromEntity(mi);
-				final long id = mi.getId();
-				final String name = mi.getName();
+				mv.getInfoFromEntity(movie);
+				final long id = movie.getId();
+				final String name = movie.getName();
+				final float popularity = movie.getPoularity();
 				mv.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
 						Intent intent = new Intent(GetActivity.this, MovieDetails.class);
 						intent.putExtra(M_ID, id);
 						intent.putExtra(NAME, name);
+						intent.putExtra(POPULARITY, Math.round(popularity) + "%");
 						startActivity(intent);
 					}
 				});
@@ -106,9 +102,9 @@ public class GetActivity extends Activity {
 
 		@Override
 		protected void onProgressUpdate(Integer... values) {
-			ProgressBar pb = (ProgressBar) findViewById(R.id.progressBar2);
-			pb.setMax(values[1]);
-			pb.setProgress(values[0]);
+			ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar2);
+			progress.setMax(values[1]);
+			progress.setProgress(values[0]);
 		}
 	}
 
