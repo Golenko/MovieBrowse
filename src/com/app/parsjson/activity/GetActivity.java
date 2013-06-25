@@ -1,5 +1,6 @@
 package com.app.parsjson.activity;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ public class GetActivity extends Activity {
 	public final static String M_ID = "ID";
 	public final static String NAME = "NAME";
 	public final static String POPULARITY = "POPULARITY";
-	public String query;
+	private String query;
 	private LinearLayout framesContainer;
 
 	@Override
@@ -35,16 +36,21 @@ public class GetActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_get);
 		framesContainer = (LinearLayout) findViewById(R.id.mainLayout);
-		
+
 		Intent intent = getIntent();
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			String name = intent.getStringExtra(SearchManager.QUERY);
-			query = "http://private-8a74b-themoviedb.apiary.io/3/search/movie?query=" + URLEncoder.encode(name) + "&api_key=9abbb583ac624dedefae66bfb579e008";
-//			query = "http://private-8a74b-themoviedb.apiary.io/3/movie/popular?api_key=9abbb583ac624dedefae66bfb579e008";
+			try {
+				query = "http://private-8a74b-themoviedb.apiary.io/3/search/movie?query="
+						+ URLEncoder.encode(name, "UTF-8")
+						+ "&api_key=9abbb583ac624dedefae66bfb579e008";
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 		} else {
 			query = "http://private-8a74b-themoviedb.apiary.io/3/movie/popular?api_key=9abbb583ac624dedefae66bfb579e008";
 		}
-		
+
 		BrowseMovies listLoader = new BrowseMovies();
 		listLoader.execute();
 
@@ -56,7 +62,7 @@ public class GetActivity extends Activity {
 		return true;
 	}
 
-	private class BrowseMovies extends
+private class BrowseMovies extends
 			AsyncTask<Void, Integer, ArrayList<MovieInfo>> {
 
 		@Override
