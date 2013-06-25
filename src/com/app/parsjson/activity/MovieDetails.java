@@ -4,7 +4,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.SearchManager;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,12 +24,13 @@ public class MovieDetails extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_mov_det);
 		Intent intent = getIntent();
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			finish();
 			intent.setClass(MovieDetails.this, GetActivity.class);
 			startActivity(intent);
 		} else {
+			setContentView(R.layout.activity_mov_det);
 			id = intent.getLongExtra(GetActivity.M_ID, 0);
 			query = "http://private-8a74b-themoviedb.apiary.io/3/movie/" + id
 					+ "?api_key=9abbb583ac624dedefae66bfb579e008";
