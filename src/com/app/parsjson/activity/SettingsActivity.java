@@ -15,6 +15,7 @@ import com.example.parsjson.R;
 
 public class SettingsActivity extends Activity {
 	protected File cacheDir;
+	protected int moviesCount;
 	
 	
 	
@@ -42,7 +43,7 @@ public class SettingsActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-		String cacheLocation = sharedPref.getString("moviesCount", "@string/settings_memory");
+		moviesCount = Integer.parseInt(sharedPref.getString("moviesCount", "10"));
 		cacheDir = getCacheDir();
 //		cacheDir = "@string/settings_card".equals(cacheLocation) ? getCacheDir() : getExternalCacheDir();
 		System.out.println(cacheDir.getPath());

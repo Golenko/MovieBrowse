@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:contentDescription="@string/dumb"
         android:scaleType="fitXY"
-        android:src="@drawable/sample" />
+        android:src="@drawable/sample2" />
 
     <TextView
         android:id="@+id/rating"

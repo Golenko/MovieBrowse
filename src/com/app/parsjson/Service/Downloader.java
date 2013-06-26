@@ -26,19 +26,22 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 
 import com.app.parsjson.Link;
 import com.app.parsjson.MovieInfo;
+import com.example.parsjson.R;
 
 public class Downloader implements MovieService {
 	private final static int PORT = 8080;
 	private final static String HOST_NAME = "proxy.softservecom.com";
-	private File cacheDir;
+	private Context context;
 
-	public Downloader(File cacheDir) {
-		this.cacheDir = cacheDir;
+	public Downloader(Context context) {
+		this.context = context;
 	}
 
 	private JSONObject GetJson(String link) {
@@ -72,13 +75,16 @@ public class Downloader implements MovieService {
 		return null;
 	}
 
-	private Bitmap getImage(String link, Long id, File dir) {
+	private Bitmap getImage(String link, Long id) {
 		Bitmap bmp = null;
 		/*--- this method downloads an Image from the given URL, 
 		 *  then decodes and returns a Bitmap object
 		 ---*/
+		if (link == null)
+			return ((BitmapDrawable) context.getResources().getDrawable(
+					R.drawable.sample2)).getBitmap();
 
-		File image = new File(dir, id + ".jpg");
+		File image = new File(context.getCacheDir(), id + ".jpg");
 		if (image.exists()) {
 			System.out.println(image.getAbsolutePath() + "   find");
 			try {
@@ -115,27 +121,29 @@ public class Downloader implements MovieService {
 	private MovieInfo ParseJSON(JSONObject movieJSON) throws JSONException {
 		MovieInfo movie = new MovieInfo();
 		movie.setRating((float) movieJSON.getDouble("vote_average") / 2);
-		String url = Link.IMAGE_HOST + movieJSON.getString("poster_path");
+		String url = movieJSON.getString("poster_path").equals("null") ? null
+				: Link.IMAGE_HOST + movieJSON.getString("poster_path");
 		movie.setUrl(url);
 		movie.setDate(movieJSON.getString("release_date"));
 		return movie;
 	}
 
 	@Override
-	public List<MovieInfo> getMovieList(String query) {
+	public List<MovieInfo> getMovieList(String query, int count) {
 		List<MovieInfo> list = new ArrayList<MovieInfo>();
 
 		try {
 			JSONObject entries = GetJson(query);
 			JSONArray results = entries.getJSONArray("results");
-			int count = results.length() < 10 ? results.length() : 10;
-			for (int i = 0; i < count; i++) {
+			int resultCount = results.length() < count ? results.length()
+					: count;
+			for (int i = 0; i < resultCount; i++) {
 				JSONObject movieJSON = results.getJSONObject(i);
 				MovieInfo movie = ParseJSON(movieJSON);
 				movie.setName(movieJSON.getString("original_title"));
 				movie.setPoularity((float) movieJSON.getDouble("popularity"));
 				movie.setId(movieJSON.getLong("id"));
-				movie.setBmp(getImage(movie.getUrl(), movie.getId(), cacheDir));
+				movie.setBmp(getImage(movie.getUrl(), movie.getId()));
 
 				list.add(movie);
 			}
@@ -154,7 +162,7 @@ public class Downloader implements MovieService {
 			MovieInfo movie = ParseJSON(movieJSON);
 			movie.setRuntime(Integer.parseInt(movieJSON.getString("runtime")));
 			movie.setOverview(movieJSON.getString("overview"));
-			movie.setBmp(getImage(movie.getUrl(), id, cacheDir));
+			movie.setBmp(getImage(movie.getUrl(), id));
 			return movie;
 
 		} catch (JSONException e) {

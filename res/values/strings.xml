@@ -27,6 +27,6 @@
     <string name="settings_ua">Ukrainian</string>
     <string name="settings_count_sum">Select limit for movies to download</string>
     <string name="settings_count_dialog">Enter a number of movies (from 5 to 20):</string>
-     <string name="settings_count">Movies to download:</string>
+     <string name="settings_count">Movies to download</string>
 
 </resources>

@@ -69,8 +69,8 @@ public class MovieList extends SettingsActivity {
 		@Override
 		protected List<MovieInfo> doInBackground(Void... arg0) {
 
-			MovieService service = new Downloader(getCacheDir());
-			return service.getMovieList(query);
+			MovieService service = new Downloader(getApplicationContext());
+			return service.getMovieList(query, moviesCount);
 
 		}
 
