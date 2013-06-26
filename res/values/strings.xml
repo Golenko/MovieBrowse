@@ -10,13 +10,10 @@
     <string name="dumb">453453545</string>
     <string name="budget">Budget:</string>
     <string name="popularity">Popularity:</string>
-    <string name="country">Country:</string>
-    <string name="company">Company:</string>
     <string name="runtime">Runtime:</string>
     <string name="search_hint">Enter movie name</string>
     <string name="app_label">Movie browser</string>
     <string name="title_activity_searchable">Search results</string>
-    <string name="title_activity_settings">SettingsActivity</string>
     <string name="settings_storage">Cache location</string>
     <string name="settings_storage_sum">Select cache location</string>
     <string name="settings_language">Language</string>
@@ -27,6 +24,7 @@
     <string name="settings_ua">Ukrainian</string>
     <string name="settings_count_sum">Select limit for movies to download</string>
     <string name="settings_count_dialog">Enter a number of movies (from 5 to 20):</string>
-     <string name="settings_count">Movies to download</string>
-
+    <string name="settings_count">Movies to download</string>
+    <string name="title_activity_settings">Settings</string>
+     
 </resources>

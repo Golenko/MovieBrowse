@@ -15,6 +15,13 @@ import com.example.parsjson.R;
 
 public class MovieDetails extends SettingsActivity {
 	private long id;
+	private TextView tvMovieName;
+	private TextView tvPopularity;
+	private TextView tvRuntime;
+	private TextView tvRelease;
+	private TextView tvOverview;
+	private ImageView ivPoster;
+	private RatingBar rbRating;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,10 +35,18 @@ public class MovieDetails extends SettingsActivity {
 			setContentView(R.layout.activity_mov_det);
 			id = intent.getLongExtra(MovieList.M_ID, 0);
 			setTitle(intent.getStringExtra(MovieList.NAME));
-			((TextView) findViewById(R.id.movieName)).setText(intent
-					.getStringExtra(MovieList.NAME));
-			((TextView) findViewById(R.id.popularityVal)).setText(intent
-					.getStringExtra(MovieList.POPULARITY));
+
+			tvMovieName = ((TextView) findViewById(R.id.movieName));
+			tvPopularity = ((TextView) findViewById(R.id.popularityVal));
+			tvRuntime = ((TextView) findViewById(R.id.runtimeVal));
+			tvRelease = ((TextView) findViewById(R.id.releaseVal));
+			tvOverview = ((TextView) findViewById(R.id.overview));
+			ivPoster = ((ImageView) findViewById(R.id.Poster));
+			rbRating = ((RatingBar) findViewById(R.id.movieRate));
+
+			tvPopularity.setText(intent.getStringExtra(MovieList.POPULARITY));
+			tvMovieName.setText(intent.getStringExtra(MovieList.NAME));
+
 			GetMovie movieLoader = new GetMovie();
 			movieLoader.execute();
 		}
@@ -49,20 +64,15 @@ public class MovieDetails extends SettingsActivity {
 		protected MovieInfo doInBackground(Void... arg0) {
 			MovieService service = new Downloader(getApplicationContext());
 			return service.getMovie(id);
-
 		}
 
+		@Override
 		protected void onPostExecute(MovieInfo results) {
-			((TextView) findViewById(R.id.releaseVal)).setText(results
-					.getDate());
-			((TextView) findViewById(R.id.runtimeVal)).setText(String
-					.valueOf(results.getRuntime()) + " min");
-			((TextView) findViewById(R.id.overview)).setText(results
-					.getOverview());
-			((RatingBar) findViewById(R.id.movieRate)).setRating(results
-					.getRating());
-			((ImageView) findViewById(R.id.Poster)).setImageBitmap(results
-					.getBmp());
+			tvRelease.setText(results.getDate());
+			tvRuntime.setText(String.valueOf(results.getRuntime()) + " min");
+			tvOverview.setText(results.getOverview());
+			rbRating.setRating(results.getRating());
+			ivPoster.setImageBitmap(results.getBmp());
 		}
 	}
 

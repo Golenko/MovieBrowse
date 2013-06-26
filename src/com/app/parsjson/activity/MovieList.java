@@ -34,7 +34,7 @@ public class MovieList extends SettingsActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_get);
-		
+
 		tvInfo = ((TextView) findViewById(R.id.Downloading));
 		progress = (ProgressBar) findViewById(R.id.progressBar2);
 		framesContainer = (LinearLayout) findViewById(R.id.mainLayout);
@@ -74,6 +74,7 @@ public class MovieList extends SettingsActivity {
 
 		}
 
+		@Override
 		protected void onPostExecute(List<MovieInfo> results) {
 			for (MovieInfo movie : results) {
 				MovieView movieView = new MovieView(getApplicationContext());

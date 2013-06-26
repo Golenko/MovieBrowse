@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name"> Браузер фільмів </string>
+    <string name="action_settings"> Налаштування </string>
+    <string name="title_activity_movie_details"> MovieDetails </string>
+    <string name="Release"> Дата випуску: </string>
+    <string name="rating"> Рейтинг: </string>
+    <string name="budget"> Бюджет: </string>
+    <string name="popularity"> Популярність: </string>
+    <string name="runtime"> Тривалість: </string>
+    <string name="search_hint"> Введіть назву фільму </string>
+    <string name="app_label"> Браузер фільмів </string>
+    <string name="title_activity_searchable"> результати пошуку </string>
+    <string name="settings_storage"> Розташування кешу </string>
+    <string name="settings_storage_sum"> Виберіть розташування кешу </string>
+    <string name="settings_language"> Мова </string>
+    <string name="settings_language_sum"> Мова інтерфейсу: </string>
+    <string name="settings_memory"> внутрішньої пам\'яті </string>
+    <string name="settings_card"> SD картки </string>
+    <string name="settings_en"> Англійська </string>
+    <string name="settings_ua"> Українська </string>
+    <string name="settings_count_sum"> Виберіть, скільки фільмів завантажувати за один раз </string>
+    <string name="settings_count_dialog"> Введіть кількість фільмів (від 5 до 20): </string>
+    <string name="settings_count"> Кількість фільмів </string>
+    <string name="title_activity_settings"> Налаштування </string>
+
+</resources>

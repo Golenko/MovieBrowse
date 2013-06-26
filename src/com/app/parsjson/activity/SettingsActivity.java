@@ -1,10 +1,12 @@
 package com.app.parsjson.activity;
 
 import java.io.File;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.Menu;
@@ -31,7 +33,7 @@ public class SettingsActivity extends Activity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.action_settings:
-			startActivity(new Intent(this, PrefActivity.class));
+			startActivity(new Intent(this, Preference.class));
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -44,6 +46,23 @@ public class SettingsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 		moviesCount = Integer.parseInt(sharedPref.getString("moviesCount", "10"));
+		
+		String language = sharedPref.getString("language", "en");
+		
+		Locale locale;
+		if (getResources().getString(R.string.settings_ua).equals(language)) {
+			locale = new Locale("ua");
+		} else {
+			locale = new Locale("en");
+		}
+		
+		Locale.setDefault(locale);
+		Configuration config = new Configuration();
+		config.locale = locale;
+		getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+		
+		
+		
 		cacheDir = getCacheDir();
 //		cacheDir = "@string/settings_card".equals(cacheLocation) ? getCacheDir() : getExternalCacheDir();
 		System.out.println(cacheDir.getPath());
