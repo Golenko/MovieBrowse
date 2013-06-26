@@ -17,7 +17,7 @@ import com.app.parsjson.activity.GetActivity;
 import com.app.parsjson.MovieInfo;
 import com.example.parsjson.R;
 
-public class MovieDetails extends Activity {
+public class MovieDetails extends SettingsActivity {
 	private long id;
 	private String query;
 
@@ -46,8 +46,7 @@ public class MovieDetails extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.movie_details, menu);
+		super.onCreateOptionsMenu(menu);
 		return true;
 	}
 

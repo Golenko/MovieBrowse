@@ -14,6 +14,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -24,7 +26,7 @@ import com.app.parsjson.MovieInfo;
 import com.app.parsjson.MovieView;
 import com.example.parsjson.R;
 
-public class GetActivity extends Activity {
+public class GetActivity extends SettingsActivity {
 	public final static String M_ID = "ID";
 	public final static String NAME = "NAME";
 	public final static String POPULARITY = "POPULARITY";
@@ -50,6 +52,8 @@ public class GetActivity extends Activity {
 		} else {
 			query = "http://private-8a74b-themoviedb.apiary.io/3/movie/popular?api_key=9abbb583ac624dedefae66bfb579e008";
 		}
+		
+
 
 		BrowseMovies listLoader = new BrowseMovies();
 		listLoader.execute();
@@ -58,9 +62,12 @@ public class GetActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.get, menu);
-		return true;
+	    super.onCreateOptionsMenu(menu);
+	    return true;
+
 	}
+
+
 
 private class BrowseMovies extends
 			AsyncTask<Void, Integer, ArrayList<MovieInfo>> {
