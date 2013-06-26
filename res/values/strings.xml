@@ -17,12 +17,16 @@
     <string name="app_label">Movie browser</string>
     <string name="title_activity_searchable">Search results</string>
     <string name="title_activity_settings">SettingsActivity</string>
-    <string name="settings_storage">Select cache location:</string>
-    <string name="settings_language">Select interface language:</string>
+    <string name="settings_storage">Cache location</string>
+    <string name="settings_storage_sum">Select cache location</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_sum">Select interface language</string>
     <string name="settings_memory">internal memory</string>
     <string name="settings_card">SD card</string>
     <string name="settings_en">English</string>
-    <string name="settings_ua">Ukranian</string>
-    <string name="settings_count">Select limit for movies to download:</string>
+    <string name="settings_ua">Ukrainian</string>
+    <string name="settings_count_sum">Select limit for movies to download</string>
+    <string name="settings_count_dialog">Enter a number of movies (from 5 to 20):</string>
+     <string name="settings_count">Movies to download:</string>
 
 </resources>

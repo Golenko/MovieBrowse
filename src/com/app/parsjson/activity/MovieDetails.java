@@ -1,9 +1,5 @@
 package com.app.parsjson.activity;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,14 +8,13 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.app.parsjson.Downloader;
-import com.app.parsjson.activity.GetActivity;
 import com.app.parsjson.MovieInfo;
+import com.app.parsjson.Service.Downloader;
+import com.app.parsjson.Service.MovieService;
 import com.example.parsjson.R;
 
 public class MovieDetails extends SettingsActivity {
 	private long id;
-	private String query;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -27,18 +22,16 @@ public class MovieDetails extends SettingsActivity {
 		Intent intent = getIntent();
 		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 			finish();
-			intent.setClass(MovieDetails.this, GetActivity.class);
+			intent.setClass(MovieDetails.this, MovieList.class);
 			startActivity(intent);
 		} else {
 			setContentView(R.layout.activity_mov_det);
-			id = intent.getLongExtra(GetActivity.M_ID, 0);
-			query = "http://private-8a74b-themoviedb.apiary.io/3/movie/" + id
-					+ "?api_key=9abbb583ac624dedefae66bfb579e008";
-			setTitle(intent.getStringExtra(GetActivity.NAME));
+			id = intent.getLongExtra(MovieList.M_ID, 0);
+			setTitle(intent.getStringExtra(MovieList.NAME));
 			((TextView) findViewById(R.id.movieName)).setText(intent
-					.getStringExtra(GetActivity.NAME));
+					.getStringExtra(MovieList.NAME));
 			((TextView) findViewById(R.id.popularityVal)).setText(intent
-					.getStringExtra(GetActivity.POPULARITY));
+					.getStringExtra(MovieList.POPULARITY));
 			GetMovie movieLoader = new GetMovie();
 			movieLoader.execute();
 		}
@@ -52,28 +45,10 @@ public class MovieDetails extends SettingsActivity {
 
 	private class GetMovie extends AsyncTask<Void, Void, MovieInfo> {
 
-		public final static String MESSAGE = "ID";
-
 		@Override
 		protected MovieInfo doInBackground(Void... arg0) {
-
-			try {
-				Downloader download = new Downloader();
-				JSONObject filmJSON = download.GetJson(query);
-
-				MovieInfo movie = new MovieInfo();
-				movie.setRating((float) filmJSON.getDouble("vote_average") / 2);
-				movie.setDate(filmJSON.getString("release_date"));
-				movie.setRuntime(Integer.parseInt(filmJSON.getString("runtime")));
-				movie.setOverview(filmJSON.getString("overview"));
-				String url = "https://d3gtl9l2a4fn1j.cloudfront.net/t/p/w185"
-						+ filmJSON.getString("poster_path");
-				movie.setBmp(download.getImage(url, id, getCacheDir()));
-				return movie;
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-			return null;
+			MovieService service = new Downloader(getCacheDir());
+			return service.getMovie(id);
 
 		}
 
