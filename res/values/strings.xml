@@ -18,8 +18,8 @@
     <string name="settings_storage_sum">Select cache location</string>
     <string name="settings_language">Language</string>
     <string name="settings_language_sum">Select interface language</string>
-    <string name="settings_memory">internal memory</string>
-    <string name="settings_card">SD card</string>
+    <string name="settings_memory">Memory</string>
+    <string name="settings_card">File system</string>
     <string name="settings_en">English</string>
     <string name="settings_ua">Ukrainian</string>
     <string name="settings_count_sum">Select limit for movies to download</string>

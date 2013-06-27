@@ -12,8 +12,8 @@
     <CheckBoxPreference
         android:defaultValue="true"
         android:key="cacheEnabled"
-        android:summary="This preference can be true or false"
-        android:title="Checkbox Preference" />
+        android:summary="@string/settings_cache_sum"
+        android:title="@string/settings_cache" />
 
     <ListPreference
         android:dependency="cacheEnabled"
@@ -26,7 +26,7 @@
         android:title="@string/settings_storage" >
     </ListPreference>
     <ListPreference
-        android:defaultValue="@string/settings_en"
+        android:defaultValue="English"
         android:dialogTitle="@string/settings_language_sum"
         android:entries="@array/language"
         android:entryValues="@array/language"

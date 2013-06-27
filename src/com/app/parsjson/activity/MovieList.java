@@ -48,8 +48,6 @@ public class MovieList extends SettingsActivity {
 	}
 
 	private class BrowseMovies extends AsyncTask<Void, Void, List<MovieInfo>> {
-
-        private final MovieService service = new MemoryDownloader(getApplicationContext(), moviesCount);
         private final Intent intent;
 
         public BrowseMovies(final Intent intent) {
