@@ -11,18 +11,17 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import com.app.parsjson.Link;
+
 import com.app.parsjson.MovieInfo;
 import com.app.parsjson.MovieView;
-import com.app.parsjson.service.Downloader;
 import com.app.parsjson.service.MovieService;
+import com.app.parsjson.service.NoCacheDownloader;
 import com.example.parsjson.R;
 
 public class MovieList extends SettingsActivity {
 	public final static String M_ID = "ID";
 	public final static String NAME = "NAME";
 	public final static String POPULARITY = "POPULARITY";
-	private String query;
 	private LinearLayout framesContainer;
 	private TextView tvInfo;
 	private ProgressBar progress;
@@ -50,7 +49,7 @@ public class MovieList extends SettingsActivity {
 
 	private class BrowseMovies extends AsyncTask<Void, Void, List<MovieInfo>> {
 
-        private final MovieService service = new Downloader(getApplicationContext(), moviesCount);
+        private final MovieService service = new NoCacheDownloader(getApplicationContext(), moviesCount);
         private final Intent intent;
 
         public BrowseMovies(final Intent intent) {
