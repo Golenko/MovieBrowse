@@ -31,13 +31,12 @@ public class SettingsActivity extends Activity {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case R.id.action_settings:
+		
+		if(item.getItemId() == R.id.action_settings) { // or equals for Object type
 			startActivity(new Intent(this, Preference.class));
 			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+			}
+		return false;
 
 	}
 

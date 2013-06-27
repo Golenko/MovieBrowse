@@ -9,8 +9,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.app.parsjson.MovieInfo;
-import com.app.parsjson.Service.Downloader;
-import com.app.parsjson.Service.MovieService;
+import com.app.parsjson.service.Downloader;
+import com.app.parsjson.service.MovieService;
 import com.example.parsjson.R;
 
 public class MovieDetails extends SettingsActivity {
@@ -62,7 +62,7 @@ public class MovieDetails extends SettingsActivity {
 
 		@Override
 		protected MovieInfo doInBackground(Void... arg0) {
-			MovieService service = new Downloader(getApplicationContext());
+			MovieService service = new Downloader(getApplicationContext(), moviesCount);
 			return service.getMovie(id);
 		}
 

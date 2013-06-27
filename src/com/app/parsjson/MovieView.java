@@ -19,8 +19,7 @@ public class MovieView extends RelativeLayout {
 	private TextView rating;
 	private TextView releaseVal;
 	private RatingBar movieRate;
-	
-	
+
 	public MovieView(Context context) {
 		super(context);
 		initComponent();
@@ -48,7 +47,7 @@ public class MovieView extends RelativeLayout {
 	public void setMoviePopularity(float pop) {
 		popularityVal.setText(Math.round(pop) + "%");
 	}
-	
+
 	public void setMovieName(String name) {
 		movieName.setText(name);
 	}
@@ -56,11 +55,12 @@ public class MovieView extends RelativeLayout {
 	public void setDate(String date) {
 		releaseVal.setText(date);
 	}
+
 	public void setMovieRate(float rating) {
 		movieRate.setRating(rating);
 	}
-	
-	public void getInfoFromEntity (MovieInfo movInf) {
+
+	public void getInfoFromEntity(MovieInfo movInf) {
 		this.setMovieRate(movInf.getRating());
 		this.setMovieName(movInf.getName());
 		this.setMoviePic(movInf.getBmp());

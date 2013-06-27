@@ -1,7 +1,5 @@
 package com.app.parsjson.activity;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 
 import android.app.SearchManager;
@@ -13,12 +11,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.app.parsjson.Link;
 import com.app.parsjson.MovieInfo;
 import com.app.parsjson.MovieView;
-import com.app.parsjson.Service.Downloader;
-import com.app.parsjson.Service.MovieService;
+import com.app.parsjson.service.Downloader;
+import com.app.parsjson.service.MovieService;
 import com.example.parsjson.R;
 
 public class MovieList extends SettingsActivity {
@@ -39,20 +36,7 @@ public class MovieList extends SettingsActivity {
 		progress = (ProgressBar) findViewById(R.id.progressBar2);
 		framesContainer = (LinearLayout) findViewById(R.id.mainLayout);
 
-		Intent intent = getIntent();
-		if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			String name = intent.getStringExtra(SearchManager.QUERY);
-			try {
-				query = Link.HOST + Link.SEARCH_MOVIE
-						+ URLEncoder.encode(name, "UTF-8") + "&" + Link.APIKEY;
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-		} else {
-			query = Link.HOST + Link.POPULAR + Link.APIKEY;
-		}
-
-		BrowseMovies listLoader = new BrowseMovies();
+		BrowseMovies listLoader = new BrowseMovies(getIntent());
 		listLoader.execute();
 
 	}
@@ -66,11 +50,29 @@ public class MovieList extends SettingsActivity {
 
 	private class BrowseMovies extends AsyncTask<Void, Void, List<MovieInfo>> {
 
-		@Override
+        private final MovieService service = new Downloader(getApplicationContext(), moviesCount);
+        private final Intent intent;
+
+        public BrowseMovies(final Intent intent) {
+
+            this.intent = intent;
+        }
+
+        @Override
 		protected List<MovieInfo> doInBackground(Void... arg0) {
 
-			MovieService service = new Downloader(getApplicationContext());
-			return service.getMovieList(query, moviesCount);
+            if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+                String name = intent.getStringExtra(SearchManager.QUERY);
+
+                return service.searchMovie(name);
+
+            } else {
+
+			    return service.getMovieList();
+            }
+
+
+
 
 		}
 
@@ -85,8 +87,7 @@ public class MovieList extends SettingsActivity {
 				final float popularity = movie.getPoularity();
 				movieView.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						Intent intent = new Intent(MovieList.this,
-								MovieDetails.class);
+						Intent intent = new Intent(MovieList.this, MovieDetails.class);
 						intent.putExtra(M_ID, id);
 						intent.putExtra(NAME, name);
 						intent.putExtra(POPULARITY, Math.round(popularity)
