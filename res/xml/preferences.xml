@@ -9,7 +9,14 @@
         android:title="@string/settings_count" >
     </EditTextPreference>
 
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="cacheEnabled"
+        android:summary="This preference can be true or false"
+        android:title="Checkbox Preference" />
+
     <ListPreference
+        android:dependency="cacheEnabled"
         android:defaultValue="@string/settings_memory"
         android:dialogTitle="@string/settings_storage_sum"
         android:entries="@array/cache_location"
@@ -27,4 +34,5 @@
         android:summary="@string/settings_language_sum"
         android:title="@string/settings_language" >
     </ListPreference>
-</PreferenceScreen>
+
+</PreferenceScreen>

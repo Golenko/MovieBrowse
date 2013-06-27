@@ -5,23 +5,22 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+import com.example.parsjson.R;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 
-public class MemoryCacheDownloader extends AbstractDownloader{
-
-	public MemoryCacheDownloader(Context context, int moviesCount) {
+public class FileSystemDownloader extends SimpleDownloader {
+	public FileSystemDownloader(Context context, int moviesCount) {
 		super(context, moviesCount);
 	}
 
-	@Override
 	protected boolean validCache(Long id) {
-		File image = new File(context.getCacheDir(), id + ".jpg");
-		return image.exists();
+		return new File(context.getCacheDir(), id + ".jpg").exists();
 	}
 
-	@Override
 	protected void saveToCache(Bitmap bmp, Long id) {
 		File image = new File(context.getCacheDir(), id + ".jpg");
 		try {
@@ -33,6 +32,20 @@ public class MemoryCacheDownloader extends AbstractDownloader{
 	}
 
 	@Override
+	protected Bitmap getImage(String url, Long id) {
+		if (url == null)
+			return ((BitmapDrawable) context.getResources().getDrawable(
+					R.drawable.sample2)).getBitmap();
+
+		if (validCache(id)) {
+			return getFromCache(id);
+		} else {
+			Bitmap image = BitmapFactory.decodeStream(getInputStream(url));
+			saveToCache(image, id);
+			return image;
+		}
+	}
+
 	protected Bitmap getFromCache(Long id) {
 		File image = new File(context.getCacheDir(), id + ".jpg");
 		System.out.println(image.getAbsolutePath() + "   find");

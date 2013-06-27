@@ -8,5 +8,4 @@ public interface MovieService {
 	List<MovieInfo> getMovieList();
     List<MovieInfo> searchMovie(String name);
 	MovieInfo getMovie(long id);
-
 }

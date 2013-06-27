@@ -24,5 +24,7 @@
     <string name="settings_count_dialog"> Введіть кількість фільмів (від 5 до 20): </string>
     <string name="settings_count"> Кількість фільмів </string>
     <string name="title_activity_settings"> Налаштування </string>
+    <string name="settings_cache"> Використовувати кеш </string>
+    <string name="settings_cache_sum"> Використання кешу прискорюэ завантаження фільмів </string>
 
 </resources>

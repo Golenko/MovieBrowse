@@ -28,13 +28,13 @@ import com.app.parsjson.Link;
 import com.app.parsjson.MovieInfo;
 import com.example.parsjson.R;
 
-public abstract class AbstractDownloader implements MovieService {
+public class SimpleDownloader implements MovieService {
 	private final static int PORT = 8080;
 	private final static String HOST_NAME = "proxy.softservecom.com";
 	protected Context context;
 	protected final int moviesCount;
 
-	public AbstractDownloader(Context context, final int moviesCount) {
+	public SimpleDownloader(Context context, final int moviesCount) {
 		this.context = context;
 		this.moviesCount = moviesCount;
 	}
@@ -74,53 +74,14 @@ public abstract class AbstractDownloader implements MovieService {
 		return listMovie(query);
 	}
 
-	protected abstract boolean validCache(Long id);
-
-	protected abstract Bitmap getFromCache(Long id);
-
-	protected abstract void saveToCache(Bitmap bmp, Long id);
-
-	private Bitmap getImage(String url, Long id) {
-		Bitmap bmp = null;
-		/*--- this method downloads an Image from the given URL, 
-		 *  then decodes and returns a Bitmap object
-		 ---*/
+	protected Bitmap getImage(String url, Long id) {
 		if (url == null)
 			return ((BitmapDrawable) context.getResources().getDrawable(
 					R.drawable.sample2)).getBitmap();
-
-		if (validCache(id)) {
-			return getFromCache(id);
-		} else {
-			bmp = BitmapFactory.decodeStream(getInputStream(url));
-			saveToCache(bmp, id);
-			return bmp;
-		}
-
-		// File image = new File(context.getCacheDir(), id + ".jpg");
-		// if (image.exists()) {
-		// System.out.println(image.getAbsolutePath() + "   find");
-		// try {
-		// FileInputStream fis = new FileInputStream(image);
-		// bmp = BitmapFactory.decodeStream(fis);
-		// System.out.println(bmp.getHeight());
-		// } catch (FileNotFoundException e) {
-		// e.printStackTrace();
-		// }
-		//
-		// } else {
-		// try {
-		// bmp = BitmapFactory.decodeStream(getInputStream(url));
-		// FileOutputStream fOut = new FileOutputStream(image);
-		// bmp.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// return bmp;
+		return BitmapFactory.decodeStream(getInputStream(url));
 	}
 
-	private InputStream getInputStream(String url) {
+	protected InputStream getInputStream(String url) {
 		InputStream inputStream = null;
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpHost proxy = new HttpHost(HOST_NAME, PORT);
