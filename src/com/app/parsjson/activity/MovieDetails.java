@@ -63,7 +63,7 @@ public class MovieDetails extends SettingsActivity {
 
 		@Override
 		protected MovieInfo doInBackground(Void... arg0) {
-			MovieService service = new NoCacheDownloader(getApplicationContext(), moviesCount);
+			MovieService service = new MemoryCacheDownloader(getApplicationContext(), moviesCount);
 			return service.getMovie(id);
 		}
 

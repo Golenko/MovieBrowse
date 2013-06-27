@@ -1,9 +1,5 @@
 package com.app.parsjson.service;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -78,13 +74,13 @@ public abstract class AbstractDownloader implements MovieService {
 		return listMovie(query);
 	}
 
-	protected abstract boolean validCache(long id);
+	protected abstract boolean validCache(Long id);
 
-	protected abstract Bitmap getFromCache(long id);
+	protected abstract Bitmap getFromCache(Long id);
 
-	protected abstract void saveToCache(Bitmap bmp, long id);
+	protected abstract void saveToCache(Bitmap bmp, Long id);
 
-	private Bitmap getImage(String url, long id) {
+	private Bitmap getImage(String url, Long id) {
 		Bitmap bmp = null;
 		/*--- this method downloads an Image from the given URL, 
 		 *  then decodes and returns a Bitmap object

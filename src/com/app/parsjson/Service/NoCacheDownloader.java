@@ -10,17 +10,17 @@ public class NoCacheDownloader extends AbstractDownloader{
 	}
 
 	@Override
-	protected boolean validCache(long id) {
+	protected boolean validCache(Long id) {
 		return false;
 	}
 
 	@Override
-	protected Bitmap getFromCache(long id) {
+	protected Bitmap getFromCache(Long id) {
 		return null;
 	}
 
 	@Override
-	protected void saveToCache(Bitmap bmp, long id) {
+	protected void saveToCache(Bitmap bmp, Long id) {
 	}
 
 }

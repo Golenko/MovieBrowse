@@ -49,7 +49,7 @@ public class SettingsActivity extends Activity {
 		String language = sharedPref.getString("language", "en");
 		
 		Locale locale;
-		if (getResources().getString(R.string.settings_ua).equals(language)) {
+		if ("Ukrainian".equals(language)) {
 			locale = new Locale("ua");
 		} else {
 			locale = new Locale("en");
