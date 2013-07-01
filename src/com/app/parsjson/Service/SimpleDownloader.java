@@ -24,11 +24,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 
-import com.app.parsjson.Link;
 import com.app.parsjson.MovieInfo;
 import com.example.parsjson.R;
 
-public class SimpleDownloader implements MovieService {
+class SimpleDownloader implements MovieService {
+    public final static String HOST = "http://private-8a74b-themoviedb.apiary.io/3/";
+    public final static String SEARCH_MOVIE = "search/movie?query=";
+    public final static String POPULAR = "movie/popular?";
+    public final static String APIKEY = "api_key=9abbb583ac624dedefae66bfb579e008";
+    public final static String IMAGE_HOST = "https://d3gtl9l2a4fn1j.cloudfront.net/t/p/w185";
 	private final static int PORT = 8080;
 	private final static String HOST_NAME = "proxy.softservecom.com";
 	protected Context context;
@@ -42,12 +46,12 @@ public class SimpleDownloader implements MovieService {
 	@Override
 	public MovieInfo getMovie(long id) {
 		try {
-			String query = Link.HOST + "movie/" + id + "?" + Link.APIKEY;
+			String query = HOST + "movie/" + id + "?" + APIKEY;
 			JSONObject movieJSON = GetJson(query);
 			MovieInfo movie = ParseJSON(movieJSON);
 			movie.setRuntime(Integer.parseInt(movieJSON.getString("runtime")));
 			movie.setOverview(movieJSON.getString("overview"));
-			movie.setBmp(getImage(movie.getUrl(), id));
+			movie.setBmp(getImage(id, movie.getUrl()));
 			return movie;
 
 		} catch (JSONException e) {
@@ -58,7 +62,7 @@ public class SimpleDownloader implements MovieService {
 
 	@Override
 	public List<MovieInfo> getMovieList() {
-		String query = Link.HOST + Link.POPULAR + Link.APIKEY;
+		String query = HOST + POPULAR + APIKEY;
 		return listMovie(query);
 	}
 
@@ -66,15 +70,15 @@ public class SimpleDownloader implements MovieService {
 	public List<MovieInfo> searchMovie(final String name) {
 		String query = "";
 		try {
-			query = Link.HOST + Link.SEARCH_MOVIE
-					+ URLEncoder.encode(name, "UTF-8") + "&" + Link.APIKEY;
+			query = HOST + SEARCH_MOVIE
+					+ URLEncoder.encode(name, "UTF-8") + "&" + APIKEY;
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 		return listMovie(query);
 	}
 
-	protected Bitmap getImage(String url, Long id) {
+	protected Bitmap getImage(Long id, String url) {
 		if (url == null)
 			return ((BitmapDrawable) context.getResources().getDrawable(
 					R.drawable.sample2)).getBitmap();
@@ -82,6 +86,7 @@ public class SimpleDownloader implements MovieService {
 	}
 
 	protected InputStream getInputStream(String url) {
+	    //TODO byte[]
 		InputStream inputStream = null;
 		HttpClient httpClient = new DefaultHttpClient();
 		HttpHost proxy = new HttpHost(HOST_NAME, PORT);
@@ -114,7 +119,7 @@ public class SimpleDownloader implements MovieService {
 				movie.setName(movieJSON.getString("original_title"));
 				movie.setPoularity((float) movieJSON.getDouble("popularity"));
 				movie.setId(movieJSON.getLong("id"));
-				movie.setBmp(getImage(movie.getUrl(), movie.getId()));
+				movie.setBmp(getImage(movie.getId(), movie.getUrl()));
 
 				list.add(movie);
 			}
@@ -150,7 +155,7 @@ public class SimpleDownloader implements MovieService {
 		MovieInfo movie = new MovieInfo();
 		movie.setRating((float) movieJSON.getDouble("vote_average") / 2);
 		String url = movieJSON.getString("poster_path").equals("null") ? null
-				: Link.IMAGE_HOST + movieJSON.getString("poster_path");
+				: IMAGE_HOST + movieJSON.getString("poster_path");
 		movie.setUrl(url);
 		movie.setDate(movieJSON.getString("release_date"));
 		return movie;

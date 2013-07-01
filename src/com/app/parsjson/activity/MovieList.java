@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import com.app.parsjson.MovieInfo;
 import com.app.parsjson.MovieView;
-import com.app.parsjson.service.MemoryDownloader;
-import com.app.parsjson.service.MovieService;
 import com.example.parsjson.R;
 
 public class MovieList extends SettingsActivity {
@@ -48,36 +46,36 @@ public class MovieList extends SettingsActivity {
 	}
 
 	private class BrowseMovies extends AsyncTask<Void, Void, List<MovieInfo>> {
-        private final Intent intent;
+		private final Intent intent;
 
-        public BrowseMovies(final Intent intent) {
-            this.intent = intent;
-            
-        }
+		public BrowseMovies(final Intent intent) {
+			this.intent = intent;
 
-        @Override
+		}
+
+		@Override
 		protected List<MovieInfo> doInBackground(Void... arg0) {
 
-            if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-                String name = intent.getStringExtra(SearchManager.QUERY);
-                return service.searchMovie(name);
-            } else {
-			    return service.getMovieList();
-            }
+			if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+				String name = intent.getStringExtra(SearchManager.QUERY);
+				return service.searchMovie(name);
+			} else {
+				return service.getMovieList();
+			}
 		}
 
 		@Override
 		protected void onPostExecute(List<MovieInfo> results) {
 			for (MovieInfo movie : results) {
-				MovieView movieView = new MovieView(getApplicationContext());
-				movieView.getInfoFromEntity(movie);
+				MovieView movieView = new MovieView(getApplicationContext(), movie);
 
 				final long id = movie.getId();
 				final String name = movie.getName();
 				final float popularity = movie.getPoularity();
 				movieView.setOnClickListener(new View.OnClickListener() {
 					public void onClick(View v) {
-						Intent intent = new Intent(MovieList.this, MovieDetails.class);
+						Intent intent = new Intent(MovieList.this,
+								MovieDetails.class);
 						intent.putExtra(M_ID, id);
 						intent.putExtra(NAME, name);
 						intent.putExtra(POPULARITY, Math.round(popularity)
@@ -92,5 +90,4 @@ public class MovieList extends SettingsActivity {
 		}
 
 	}
-
 }

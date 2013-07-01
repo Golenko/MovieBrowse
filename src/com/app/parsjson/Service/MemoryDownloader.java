@@ -1,16 +1,17 @@
 package com.app.parsjson.service;
 
 import java.util.HashMap;
-
-import com.example.parsjson.R;
+import java.util.Map;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 
-public class MemoryDownloader extends SimpleDownloader {
-	private static final HashMap<Long, Bitmap> cache = new HashMap<Long, Bitmap>();
+import com.example.parsjson.R;
+
+class MemoryDownloader extends SimpleDownloader {
+	private static final Map<Long, Bitmap> cache = new HashMap<Long, Bitmap>();
 
 	public MemoryDownloader(Context context, int moviesCount) {
 		super(context, moviesCount);
@@ -25,13 +26,13 @@ public class MemoryDownloader extends SimpleDownloader {
 		return cache.get(id);
 	}
 
-	protected void saveToCache(Bitmap bmp, Long id) {
+	protected void saveToCache(Long id, Bitmap bmp) {
 		cache.put(id, bmp);
 
 	}
 
 	@Override
-	protected Bitmap getImage(String url, Long id) {
+	protected Bitmap getImage(Long id, String url) { 
 		if (url == null)
 			return ((BitmapDrawable) context.getResources().getDrawable(
 					R.drawable.sample2)).getBitmap();
@@ -40,7 +41,7 @@ public class MemoryDownloader extends SimpleDownloader {
 			return getFromCache(id);
 		} else {
 			Bitmap image = BitmapFactory.decodeStream(getInputStream(url));
-			saveToCache(image, id);
+			saveToCache(id, image);
 			return image;
 		}
 	}

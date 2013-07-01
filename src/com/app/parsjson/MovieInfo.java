@@ -2,7 +2,7 @@ package com.app.parsjson;
 
 import android.graphics.Bitmap;
 
-public class MovieInfo {
+public class MovieInfo { 
 	private String name;
 	private String url;
 	private String date;
@@ -92,4 +92,11 @@ public class MovieInfo {
 	public void setRuntime(int runtime) {
 		this.runtime = runtime;
 	}
+
+    @Override
+    public String toString() {
+        return "MovieInfo [name=" + name + ", url=" + url + ", date=" + date + ", overview=" + overview + ", country="
+                        + country + ", rating=" + rating + ", poularity=" + poularity + ", bmp=" + bmp + ", id=" + id
+                        + ", runtime=" + runtime + "]";
+    }
 }

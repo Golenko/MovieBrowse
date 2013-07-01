@@ -9,8 +9,6 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.app.parsjson.MovieInfo;
-import com.app.parsjson.service.MemoryDownloader;
-import com.app.parsjson.service.MovieService;
 import com.example.parsjson.R;
 
 public class MovieDetails extends SettingsActivity {
