@@ -15,9 +15,9 @@
     <string name="settings_storage"> Розташування кешу </string>
     <string name="settings_storage_sum"> Виберіть розташування кешу </string>
     <string name="settings_language"> Мова </string>
-    <string name="settings_language_sum"> Мова інтерфейсу: </string>
-    <string name="settings_memory"> внутрішньої пам\'яті </string>
-    <string name="settings_card"> SD картки </string>
+    <string name="settings_language_sum"> Мова інтерфейсу </string>
+    <string name="settings_memory"> Внутрішня пам\'ять </string>
+    <string name="settings_card"> Файлова система </string>
     <string name="settings_en"> Англійська </string>
     <string name="settings_ua"> Українська </string>
     <string name="settings_count_sum"> Виберіть, скільки фільмів завантажувати за один раз </string>
@@ -25,6 +25,6 @@
     <string name="settings_count"> Кількість фільмів </string>
     <string name="title_activity_settings"> Налаштування </string>
     <string name="settings_cache"> Використовувати кеш </string>
-    <string name="settings_cache_sum"> Використання кешу прискорюэ завантаження фільмів </string>
-
+    <string name="settings_cache_sum"> Використання кешу прискорює завантаження фільмів </string>
+	<string name="downloading">Триває завантаження</string>
 </resources>

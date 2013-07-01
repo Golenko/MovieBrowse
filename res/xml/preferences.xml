@@ -17,19 +17,19 @@
 
     <ListPreference
         android:dependency="cacheEnabled"
-        android:defaultValue="@string/settings_memory"
+        android:defaultValue="memory"
         android:dialogTitle="@string/settings_storage_sum"
         android:entries="@array/cache_location"
-        android:entryValues="@array/cache_location"
+        android:entryValues="@array/cache_values"
         android:key="cache_location"
         android:summary="@string/settings_storage_sum"
         android:title="@string/settings_storage" >
     </ListPreference>
     <ListPreference
-        android:defaultValue="English"
+        android:defaultValue="en"
         android:dialogTitle="@string/settings_language_sum"
-        android:entries="@array/language"
-        android:entryValues="@array/language"
+        android:entries="@array/language_entries"
+        android:entryValues="@array/language_values"
         android:key="language"
         android:summary="@string/settings_language_sum"
         android:title="@string/settings_language" >
