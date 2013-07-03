@@ -1,137 +1,163 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MovieDetails" >
+    android:layout_gravity="bottom"
+    android:minHeight="500dp" >
 
-    <ImageView
-        android:id="@+id/Poster"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:contentDescription="@string/dumb"
-        android:src="@drawable/sample2" />
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context=".MovieDetails" >
 
-    <RatingBar
-        android:id="@+id/movieRate"
-        style="?android:attr/ratingBarStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignTop="@+id/rating"
-        android:clickable="false"
-        android:numStars="5"
-        android:rating="0" />
+        <ImageView
+            android:id="@+id/Poster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:contentDescription="@string/dumb"
+            android:src="@drawable/no_image" />
 
-    <TextView
-        android:id="@+id/movieName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/releaseVal"
-        android:layout_alignTop="@+id/Poster"
-        android:layout_marginLeft="14dp"
-        android:layout_toRightOf="@+id/Poster"
-        android:ellipsize="end"
-        android:maxLines="2"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#ff68c853"
-        android:textSize="14sp"
-        android:textStyle="italic" />
+        <RatingBar
+            android:id="@+id/movieRate"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/rating"
+            android:clickable="false"
+            android:numStars="5"
+            android:rating="0" />
 
-    <TextView
-        android:id="@+id/rating"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/Poster"
-        android:layout_alignLeft="@+id/TextView01"
-        android:text="@string/rating"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/movieName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/releaseVal"
+            android:layout_alignTop="@+id/Poster"
+            android:layout_marginLeft="14dp"
+            android:layout_toRightOf="@+id/Poster"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="@string/dumb"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#ff68c853"
+            android:textSize="14sp"
+            android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/TextView02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/popularityVal"
-        android:layout_alignLeft="@+id/release"
-        android:text="@string/popularity"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/Poster"
+            android:layout_alignLeft="@+id/TextView01"
+            android:text="@string/rating"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/runtimeVal"
-        android:layout_alignLeft="@+id/TextView02"
-        android:text="@string/runtime"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/TextView02"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/popularityVal"
+            android:layout_alignLeft="@+id/release"
+            android:text="@string/popularity"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/release"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/releaseVal"
-        android:layout_alignLeft="@+id/movieName"
-        android:text="@string/Release"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/runtimeVal"
+            android:layout_alignLeft="@+id/TextView02"
+            android:text="@string/runtime"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/releaseVal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/TextView01"
-        android:layout_alignParentRight="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        android:textStyle="italic" />
+        <TextView
+            android:id="@+id/release"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/releaseVal"
+            android:layout_alignLeft="@+id/movieName"
+            android:text="@string/Release"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/runtimeVal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/TextView02"
-        android:layout_alignParentRight="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        android:textStyle="italic" />
+        <TextView
+            android:id="@+id/releaseVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/TextView01"
+            android:layout_alignParentRight="true"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/overview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/Poster"
-        android:layout_below="@+id/movieRate"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textSize="12sp" />
+        <TextView
+            android:id="@+id/runtimeVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/TextView02"
+            android:layout_alignParentRight="true"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="italic" />
 
-    <TextView
-        android:id="@+id/popularityVal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/movieRate"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="14dp"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="#000000"
-        android:textSize="12sp"
-        android:textStyle="italic" />
+        <TextView
+            android:id="@+id/popularityVal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/movieRate"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="14dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            android:textStyle="italic" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/btnTrailer"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/movieRate"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="17dp"
+            android:background="@xml/custom_button"
+            android:drawableLeft="@drawable/play_btn"
+            android:maxHeight="40dp"
+            android:minHeight="20dip"
+            android:onClick="onButtonClick"
+            android:text="@string/trailer" />
+
+        <TextView
+            android:id="@+id/overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/Poster"
+            android:layout_below="@+id/btnTrailer"
+            android:layout_marginTop="14dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textSize="12sp" />
+
+    </RelativeLayout>
+
+</ScrollView>

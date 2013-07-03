@@ -33,131 +33,135 @@ class SimpleDownloader implements MovieService {
     public final static String POPULAR = "movie/popular?";
     public final static String APIKEY = "api_key=9abbb583ac624dedefae66bfb579e008";
     public final static String IMAGE_HOST = "https://d3gtl9l2a4fn1j.cloudfront.net/t/p/w185";
-	private final static int PORT = 8080;
-	private final static String HOST_NAME = "proxy.softservecom.com";
-	protected Context context;
-	protected final int moviesCount;
+    public final static String YOUTUBE = "http://www.youtube.com/watch?v=";
+    public final static String TRAILERS = "/trailers?";
+    private final static int PORT = 8080;
+    private final static String HOST_NAME = "proxy.softservecom.com";
+    protected Context context;
+    protected final int moviesCount;
 
-	public SimpleDownloader(Context context, final int moviesCount) {
-		this.context = context;
-		this.moviesCount = moviesCount;
-	}
+    public SimpleDownloader(Context context, final int moviesCount) {
+        this.context = context;
+        this.moviesCount = moviesCount;
+    }
 
-	@Override
-	public MovieInfo getMovie(long id) {
-		try {
-			String query = HOST + "movie/" + id + "?" + APIKEY;
-			JSONObject movieJSON = GetJson(query);
-			MovieInfo movie = ParseJSON(movieJSON);
-			movie.setRuntime(Integer.parseInt(movieJSON.getString("runtime")));
-			movie.setOverview(movieJSON.getString("overview"));
-			movie.setBmp(getImage(id, movie.getUrl()));
-			return movie;
+    @Override
+    public MovieInfo getMovie(long id) {
+        try {
+            String query = HOST + "movie/" + id + "?" + APIKEY;
+            JSONObject movieJSON = GetJson(query);
+            query = HOST + "movie/" + id + TRAILERS + APIKEY;
+            JSONObject trailers = GetJson(query);
+            MovieInfo movie = ParseJSON(movieJSON);
+            if (trailers.getJSONArray("youtube").length() > 0) {
+                movie.setTrailer(YOUTUBE + trailers.getJSONArray("youtube").getJSONObject(0).getString("source"));
+            }
+            movie.setRuntime(Integer.parseInt(movieJSON.getString("runtime")));
+            movie.setOverview(movieJSON.getString("overview"));
+            movie.setBmp(getImage(id, movie.getUrl()));
+            return movie;
 
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	@Override
-	public List<MovieInfo> getMovieList() {
-		String query = HOST + POPULAR + APIKEY;
-		return listMovie(query);
-	}
+    @Override
+    public List<MovieInfo> getMovieList() {
+        String query = HOST + POPULAR + APIKEY;
+        return listMovie(query);
+    }
 
-	@Override
-	public List<MovieInfo> searchMovie(final String name) {
-		String query = "";
-		try {
-			query = HOST + SEARCH_MOVIE
-					+ URLEncoder.encode(name, "UTF-8") + "&" + APIKEY;
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return listMovie(query);
-	}
+    @Override
+    public List<MovieInfo> searchMovie(final String name) {
+        String query = "";
+        try {
+            query = HOST + SEARCH_MOVIE + URLEncoder.encode(name, "UTF-8") + "&" + APIKEY;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return listMovie(query);
+    }
 
-	protected Bitmap getImage(Long id, String url) {
-		if (url == null)
-			return ((BitmapDrawable) context.getResources().getDrawable(
-					R.drawable.sample2)).getBitmap();
-		return BitmapFactory.decodeStream(getInputStream(url));
-	}
+    protected Bitmap getImage(Long id, String url) {
+        if (url == null)
+            return ((BitmapDrawable) context.getResources().getDrawable(R.drawable.no_image)).getBitmap();
+        return BitmapFactory.decodeStream(getInputStream(url));
+    }
 
-	protected InputStream getInputStream(String url) {
-	    //TODO byte[]
-		InputStream inputStream = null;
-		HttpClient httpClient = new DefaultHttpClient();
-		HttpHost proxy = new HttpHost(HOST_NAME, PORT);
-		httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY,
-				proxy);
-		HttpGet httpGet = new HttpGet(url);
-		httpGet.setHeader("Accept", "application/json");
-		HttpResponse response;
-		try {
-			response = httpClient.execute(httpGet);
-			HttpEntity entity = response.getEntity();
-			inputStream = entity.getContent();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return inputStream;
-	}
+    protected InputStream getInputStream(String url) {
+        // TODO byte[]
+        InputStream inputStream = null;
+        HttpClient httpClient = new DefaultHttpClient();
+        HttpHost proxy = new HttpHost(HOST_NAME, PORT);
+        httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+        HttpGet httpGet = new HttpGet(url);
+        httpGet.setHeader("Accept", "application/json");
+        HttpResponse response;
+        try {
+            response = httpClient.execute(httpGet);
+            HttpEntity entity = response.getEntity();
+            inputStream = entity.getContent();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return inputStream;
+    }
 
-	private List<MovieInfo> listMovie(String query) {
-		List<MovieInfo> list = new ArrayList<MovieInfo>();
-		try {
-			JSONObject entries = GetJson(query);
-			JSONArray results = entries.getJSONArray("results");
-			int resultCount = Math.min(results.length(), moviesCount);
-			for (int i = 0; i < resultCount; i++) {
-				JSONObject movieJSON = results.getJSONObject(i);
-				MovieInfo movie = ParseJSON(movieJSON);
-				movie.setName(movieJSON.getString("original_title"));
-				movie.setPoularity((float) movieJSON.getDouble("popularity"));
-				movie.setId(movieJSON.getLong("id"));
-				movie.setBmp(getImage(movie.getId(), movie.getUrl()));
+    private List<MovieInfo> listMovie(String query) {
+        List<MovieInfo> list = new ArrayList<MovieInfo>();
+        try {
+            JSONObject entries = GetJson(query);
+            JSONArray results = entries.getJSONArray("results");
+            int resultCount = Math.min(results.length(), moviesCount);
+            for (int i = 0; i < resultCount; i++) {
+                JSONObject movieJSON = results.getJSONObject(i);
+                MovieInfo movie = ParseJSON(movieJSON);
+                movie.setName(movieJSON.getString("original_title"));
+                movie.setPoularity((float) movieJSON.getDouble("popularity"));
+                movie.setId(movieJSON.getLong("id"));
+                movie.setBmp(getImage(movie.getId(), movie.getUrl()));
 
-				list.add(movie);
-			}
-			return list;
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		return Collections.emptyList();
-	}
+                list.add(movie);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
 
-	private JSONObject GetJson(String query) {
+    private JSONObject GetJson(String query) {
 
-		try {
-			InputStream inputStream = getInputStream(query);
-			byte[] buffer = new byte[1024];
-			StringBuffer sb = new StringBuffer();
-			while (true) {
-				int size = inputStream.read(buffer);
-				if (size == -1)
-					break;
-				sb.append(new String(buffer, 0, size));
-			}
+        try {
+            InputStream inputStream = getInputStream(query);
+            byte[] buffer = new byte[1024];
+            StringBuffer sb = new StringBuffer();
+            while (true) {
+                int size = inputStream.read(buffer);
+                if (size == -1)
+                    break;
+                sb.append(new String(buffer, 0, size));
+            }
 
-			JSONObject entries = new JSONObject(sb.toString());
-			return entries;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
+            JSONObject entries = new JSONObject(sb.toString());
+            return entries;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-	private MovieInfo ParseJSON(JSONObject movieJSON) throws JSONException {
-		MovieInfo movie = new MovieInfo();
-		movie.setRating((float) movieJSON.getDouble("vote_average") / 2);
-		String url = movieJSON.getString("poster_path").equals("null") ? null
-				: IMAGE_HOST + movieJSON.getString("poster_path");
-		movie.setUrl(url);
-		movie.setDate(movieJSON.getString("release_date"));
-		return movie;
-	}
+    private MovieInfo ParseJSON(JSONObject movieJSON) throws JSONException {
+        MovieInfo movie = new MovieInfo();
+        movie.setRating((float) movieJSON.getDouble("vote_average") / 2);
+        String url = movieJSON.getString("poster_path").equals("null") ? null : IMAGE_HOST
+                        + movieJSON.getString("poster_path");
+        movie.setUrl(url);
+        movie.setDate(movieJSON.getString("release_date"));
+        return movie;
+    }
 }

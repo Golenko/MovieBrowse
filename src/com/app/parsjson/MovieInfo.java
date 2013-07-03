@@ -9,6 +9,7 @@ public class MovieInfo {
 	private String overview;
 	private String country;
 	private float rating;
+	private String trailer;
 	private float poularity;
 	private Bitmap bmp;
 	private long id;
@@ -98,5 +99,13 @@ public class MovieInfo {
         return "MovieInfo [name=" + name + ", url=" + url + ", date=" + date + ", overview=" + overview + ", country="
                         + country + ", rating=" + rating + ", poularity=" + poularity + ", bmp=" + bmp + ", id=" + id
                         + ", runtime=" + runtime + "]";
+    }
+
+    public String getTrailer() {
+        return trailer;
+    }
+
+    public void setTrailer(String trailer) {
+        this.trailer = trailer;
     }
 }

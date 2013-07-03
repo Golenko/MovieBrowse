@@ -35,7 +35,7 @@ class FileSystemDownloader extends SimpleDownloader {
 	protected Bitmap getImage(Long id, String url) {
 		if (url == null)
 			return ((BitmapDrawable) context.getResources().getDrawable(
-					R.drawable.sample2)).getBitmap();
+					R.drawable.no_image)).getBitmap();
 
 		if (validCache(id)) {
 			return getFromCache(id);

@@ -18,8 +18,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.app.parsjson.activity.MovieList"
-            android:label="@string/app_name"
-            android:configChanges="locale" >
+            android:configChanges="locale"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,12 +46,16 @@
         </activity>
         <activity
             android:name="com.example.parsjson.SettingsActivity"
-            android:label="@string/title_activity_settings" 
-            android:configChanges="locale">
+            android:configChanges="locale"
+            android:label="@string/title_activity_settings" >
         </activity>
         <activity
             android:name="com.app.parsjson.activity.Preference"
             android:label="@string/title_activity_settings" >
+        </activity>
+        <activity
+            android:name="com.app.parsjson.activity.VideoActivity"
+            android:label="@string/title_activity_video" >
         </activity>
     </application>
 

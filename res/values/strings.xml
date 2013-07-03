@@ -29,5 +29,9 @@
     <string name="settings_cache">Use cache</string>
     <string name="settings_cache_sum">Downloading is faster when cache enabled</string>
     <string name="downloading">Downloading</string>
+    <string name="trailer">Play trailer</string>
+    <string name="title_activity_video">Video</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>
