@@ -1,7 +1,6 @@
 package com.app.parsjson.activity;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,22 +10,23 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.app.parsjson.MovieInfo;
 import com.example.parsjson.R;
 
-public class MovieList extends SettingsActivity {
+public class MovieList extends Fragment {
     public final static String M_ID = "ID";
     public final static String NAME = "NAME";
     public final static String POPULARITY = "POPULARITY";
@@ -44,24 +44,16 @@ public class MovieList extends SettingsActivity {
     private ListView lvMovies;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_get);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_get, null);
 
-        tvInfo = ((TextView) findViewById(R.id.Downloading));
-        progress = (ProgressBar) findViewById(R.id.progressBar2);
-        lvMovies = (ListView) findViewById(R.id.listView1);
+        tvInfo = ((TextView) v.findViewById(R.id.Downloading));
+        progress = (ProgressBar) v.findViewById(R.id.progressBar2);
+        lvMovies = (ListView) v.findViewById(R.id.listView1);
 
-        BrowseMovies listLoader = new BrowseMovies(getIntent());
+        BrowseMovies listLoader = new BrowseMovies(getActivity().getIntent());
         listLoader.execute();
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        return true;
-
+        return v;
     }
 
     private class BrowseMovies extends AsyncTask<Void, Void, List<MovieInfo>> {
@@ -69,7 +61,6 @@ public class MovieList extends SettingsActivity {
 
         public BrowseMovies(final Intent intent) {
             this.intent = intent;
-
         }
 
         @Override
@@ -77,9 +68,9 @@ public class MovieList extends SettingsActivity {
 
             if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
                 String name = intent.getStringExtra(SearchManager.QUERY);
-                return service.searchMovie(name);
+                return SettingsActivity.service.searchMovie(name);
             } else {
-                return service.getMovieList();
+                return SettingsActivity.service.getMovieList();
             }
         }
 
@@ -100,14 +91,13 @@ public class MovieList extends SettingsActivity {
                 m.put(ATTRIBUTE_RATING, movie.getRating());
                 data.add(m);
             }
-            SimpleAdapter sAdapter = new SimpleAdapter(getApplicationContext(), data, R.layout.movie_layout, from, to);
+            SimpleAdapter sAdapter = new SimpleAdapter(getActivity().getApplicationContext(), data, R.layout.movie_layout, from, to);
             sAdapter.setViewBinder(new MyViewBinder());
             lvMovies.setOnItemClickListener(new OnItemClickListener() {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Log.d("rrrrrrrrr", String.valueOf(results.get((int) id).getId()));
-                    Intent intent = new Intent(MovieList.this, MovieDetails.class);
+                    Intent intent = new Intent(getActivity(), DetailsActivity.class);
                     intent.putExtra(M_ID, results.get((int) id).getId());
                     intent.putExtra(NAME, results.get((int) id).getName());
                     intent.putExtra(POPULARITY, Math.round(results.get((int) id).getPoularity()) + "%");

@@ -2,12 +2,12 @@ package com.app.parsjson.activity;
 
 import java.util.Locale;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,7 +16,7 @@ import com.app.parsjson.service.MovieService;
 import com.app.parsjson.service.ServiceFactory;
 import com.example.parsjson.R;
 
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends FragmentActivity {
     protected static MovieService service;
     private SharedPreferences sharedPref;
 

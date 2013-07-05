@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Menu;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -15,7 +17,7 @@ import android.widget.TextView;
 import com.app.parsjson.MovieInfo;
 import com.example.parsjson.R;
 
-public class MovieDetails extends SettingsActivity {
+public class MovieDetails extends Fragment {
     private long id;
     private String trailer;
     private TextView tvMovieName;
@@ -28,44 +30,33 @@ public class MovieDetails extends SettingsActivity {
     private Button btnTrailer;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            finish();
-            intent.setClass(MovieDetails.this, MovieList.class);
-            startActivity(intent);
-        } else {
-            setContentView(R.layout.activity_mov_det);
-            id = intent.getLongExtra(MovieList.M_ID, 0);
-            setTitle(intent.getStringExtra(MovieList.NAME));
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.activity_mov_det, null);
+        Intent intent = getActivity().getIntent();
 
-            tvMovieName = ((TextView) findViewById(R.id.movieName));
-            tvPopularity = ((TextView) findViewById(R.id.popularityVal));
-            tvRuntime = ((TextView) findViewById(R.id.runtimeVal));
-            tvRelease = ((TextView) findViewById(R.id.releaseVal));
-            tvOverview = ((TextView) findViewById(R.id.overview));
-            ivPoster = (ImageView) findViewById(R.id.Poster);
-            rbRating = (RatingBar) findViewById(R.id.movieRate);
-            btnTrailer = (Button) findViewById(R.id.btnTrailer);
-            tvPopularity.setText(intent.getStringExtra(MovieList.POPULARITY));
-            tvMovieName.setText(intent.getStringExtra(MovieList.NAME));
-            btnTrailer.setVisibility(View.GONE);
-            GetMovie movieLoader = new GetMovie();
-            movieLoader.execute();
-        }
-    }
+        id = intent.getLongExtra(MovieList.M_ID, 0);
+        getActivity().setTitle(intent.getStringExtra(MovieList.NAME));
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        return true;
+        tvMovieName = ((TextView) v.findViewById(R.id.movieName));
+        tvPopularity = ((TextView) v.findViewById(R.id.popularityVal));
+        tvRuntime = ((TextView) v.findViewById(R.id.runtimeVal));
+        tvRelease = ((TextView) v.findViewById(R.id.releaseVal));
+        tvOverview = ((TextView) v.findViewById(R.id.overview));
+        ivPoster = (ImageView) v.findViewById(R.id.Poster);
+        rbRating = (RatingBar) v.findViewById(R.id.movieRate);
+        btnTrailer = (Button) v.findViewById(R.id.btnTrailer);
+        tvPopularity.setText(intent.getStringExtra(MovieList.POPULARITY));
+        tvMovieName.setText(intent.getStringExtra(MovieList.NAME));
+        btnTrailer.setVisibility(View.GONE);
+        GetMovie movieLoader = new GetMovie();
+        movieLoader.execute();
+
+        return v;
     }
 
     public void onButtonClick(View view) {
         Log.d("sss", trailer);
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(trailer)));
-
 
     }
 
@@ -73,7 +64,7 @@ public class MovieDetails extends SettingsActivity {
 
         @Override
         protected MovieInfo doInBackground(Void... arg0) {
-            return service.getMovie(id);
+            return SettingsActivity.service.getMovie(id);
         }
 
         @Override

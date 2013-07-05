@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.app.parsjson.activity.MovieList"
+            android:name="com.app.parsjson.activity.MainActivity"
             android:configChanges="locale"
             android:label="@string/app_name" >
             <intent-filter>
@@ -34,7 +34,7 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name="com.app.parsjson.activity.MovieDetails"
+            android:name="com.app.parsjson.activity.DetailsActivity"
             android:label="@string/title_activity_movie_details" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
