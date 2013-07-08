@@ -1,8 +1,8 @@
 package com.app.parsjson.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 
 import com.example.parsjson.R;
 
@@ -18,6 +18,10 @@ public class DetailsActivity extends SettingsActivity {
             startActivity(intent);
         } else {
             setContentView(R.layout.activity_details);
+            
+          FragmentTransaction fTransaction = getSupportFragmentManager().beginTransaction();
+          fTransaction.add(R.id.detailsFrame, new DetailsFragment(), DetailsFragment.DETAILS_TAG);
+          fTransaction.commit();
         }
     }
 }

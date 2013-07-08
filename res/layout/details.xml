@@ -2,17 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:baselineAligned="false"
+    android:orientation="horizontal"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".DetailsActivity" >
 
-    <fragment
-        android:id="@+id/detailsFragment"
-        android:name="com.app.parsjson.activity.MovieDetails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </fragment>
+    <FrameLayout
+        android:id="@+id/detailsFrame"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+
+        <!--  fragment
+            android:name="com.app.parsjson.activity.MovieDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/activity_mov_det" />-->
+
+    </FrameLayout> 
 
 </LinearLayout>

@@ -10,7 +10,7 @@
 
     <fragment
         android:id="@+id/listFragment"
-        android:name="com.app.parsjson.activity.MovieList"
+        android:name="com.app.parsjson.activity.ListFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </fragment>

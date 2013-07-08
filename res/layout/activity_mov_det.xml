@@ -13,7 +13,7 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
-        tools:context=".MovieDetails" >
+        tools:context=".DetailsFragment" >
 
         <ImageView
             android:id="@+id/Poster"
@@ -22,6 +22,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:contentDescription="@string/dumb"
+            android:scaleType="fitXY"
             android:src="@drawable/no_image" />
 
         <RatingBar
@@ -157,7 +158,6 @@
             android:layout_marginTop="14dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textSize="12sp" />
-
     </RelativeLayout>
 
 </ScrollView>

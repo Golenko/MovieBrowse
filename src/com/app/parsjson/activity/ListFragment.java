@@ -11,6 +11,8 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,10 +28,11 @@ import android.widget.TextView;
 import com.app.parsjson.MovieInfo;
 import com.example.parsjson.R;
 
-public class MovieList extends Fragment {
+public class ListFragment extends Fragment {
     public final static String M_ID = "ID";
     public final static String NAME = "NAME";
     public final static String POPULARITY = "POPULARITY";
+    public final static String EXTRAS = "BUNDLE";
 
     final String ATTRIBUTE_TEXT_POPULARITY = "popularity";
     final String ATTRIBUTE_TEXT_RELEASE = "release";
@@ -91,17 +94,34 @@ public class MovieList extends Fragment {
                 m.put(ATTRIBUTE_RATING, movie.getRating());
                 data.add(m);
             }
-            SimpleAdapter sAdapter = new SimpleAdapter(getActivity().getApplicationContext(), data, R.layout.movie_layout, from, to);
+            SimpleAdapter sAdapter = new SimpleAdapter(getActivity().getApplicationContext(), data,
+                            R.layout.movie_layout, from, to);
             sAdapter.setViewBinder(new MyViewBinder());
             lvMovies.setOnItemClickListener(new OnItemClickListener() {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                    intent.putExtra(M_ID, results.get((int) id).getId());
-                    intent.putExtra(NAME, results.get((int) id).getName());
-                    intent.putExtra(POPULARITY, Math.round(results.get((int) id).getPoularity()) + "%");
-                    startActivity(intent);
+
+                    FragmentManager fManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction fTransaction = fManager.beginTransaction();
+
+                    Bundle extras = new Bundle();
+                    extras.putString(NAME, results.get((int) id).getName());
+                    extras.putLong(M_ID, results.get((int) id).getId());
+                    extras.putString(POPULARITY, Math.round(results.get((int) id).getPoularity()) + "%");
+
+                    if (fManager.findFragmentByTag(DetailsFragment.DETAILS_TAG) == null) {
+                        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                        intent.putExtra(EXTRAS, extras);
+                        startActivity(intent);
+                    } else {
+                        Intent intent = getActivity().getIntent();
+                        intent.putExtra(EXTRAS, extras);
+                        Fragment detailsFragment = fManager.findFragmentByTag(DetailsFragment.DETAILS_TAG);
+                        fTransaction.remove(detailsFragment);
+                        fTransaction.add(R.id.detailsFrame, new DetailsFragment(), DetailsFragment.DETAILS_TAG);
+                        fTransaction.commit();
+                    }
                 }
             });
 

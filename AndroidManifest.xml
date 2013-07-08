@@ -35,6 +35,7 @@
         </activity>
         <activity
             android:name="com.app.parsjson.activity.DetailsActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/title_activity_movie_details" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
