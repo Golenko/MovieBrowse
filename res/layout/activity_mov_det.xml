@@ -146,7 +146,6 @@
             android:drawableLeft="@drawable/play_btn"
             android:maxHeight="40dp"
             android:minHeight="20dip"
-            android:onClick="onButtonClick"
             android:text="@string/trailer" />
 
         <TextView

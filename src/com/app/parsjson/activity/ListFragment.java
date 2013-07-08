@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -41,6 +42,7 @@ public class ListFragment extends Fragment {
     final String ATTRIBUTE_RATING = "rating";
     ArrayList<Map<String, Object>> data;
     Map<String, Object> m;
+    
 
     private TextView tvInfo;
     private ProgressBar progress;
@@ -56,6 +58,7 @@ public class ListFragment extends Fragment {
 
         BrowseMovies listLoader = new BrowseMovies(getActivity().getIntent());
         listLoader.execute();
+
         return v;
     }
 
@@ -109,18 +112,23 @@ public class ListFragment extends Fragment {
                     extras.putString(NAME, results.get((int) id).getName());
                     extras.putLong(M_ID, results.get((int) id).getId());
                     extras.putString(POPULARITY, Math.round(results.get((int) id).getPoularity()) + "%");
-
-                    if (fManager.findFragmentByTag(DetailsFragment.DETAILS_TAG) == null) {
-                        Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                        intent.putExtra(EXTRAS, extras);
-                        startActivity(intent);
-                    } else {
+                   
+                    FrameLayout detailsFrame = (FrameLayout) getActivity().findViewById(R.id.detailsFrame);
+                    if (detailsFrame != null) {
                         Intent intent = getActivity().getIntent();
                         intent.putExtra(EXTRAS, extras);
                         Fragment detailsFragment = fManager.findFragmentByTag(DetailsFragment.DETAILS_TAG);
-                        fTransaction.remove(detailsFragment);
+                        if (detailsFragment != null) {
+                            fTransaction.remove(detailsFragment);
+                        }
                         fTransaction.add(R.id.detailsFrame, new DetailsFragment(), DetailsFragment.DETAILS_TAG);
                         fTransaction.commit();
+                        detailsFrame.setVisibility(View.VISIBLE);
+                    } else {
+                        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                        intent.putExtra(EXTRAS, extras);
+                        fTransaction.detach(getTargetFragment());
+                        startActivity(intent);
                     }
                 }
             });

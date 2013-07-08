@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <item name="activity_details" type="layout">@layout/details_large</item>
+    <item name="activity_main" type="layout">@layout/main_large</item>
+
 </resources>
